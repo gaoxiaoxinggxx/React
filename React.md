@@ -2,6 +2,13 @@
 
 ### 1.1：文件目录介绍
 
+```
+1：父组件给子组件传值
+2：父组件调用子组件方法
+3：子组件给父组件传值
+4：子组件调用父组件方法
+```
+
 ### 1.2：Hook API
 
 #### 1.2.1：useState
@@ -21,7 +28,29 @@ const Timer : React.FC<TimerProps> = (props)=>{
     return <div>当前秒是{seconds}</div>
 }
 
+
 #Class
+class Example extends React.Component{
+    state = {count:0,num:9999}
+    
+    addCount = ()=>{
+        this.setState({count:this.state.count + 1})
+    }
+    addNum =() => this.setState({num:this.state.num})
+    render(){
+        return (
+        <div>
+            <p>You clicked {this.state.count} times</p>
+             <button onClick={this.addCount}>
+               Click me add count
+             </button>
+             <button onClick={this.addNum}>
+               Click me add num
+             </button>
+        </div>
+    )}
+}
+export default Example
 
 ```
 
@@ -62,7 +91,37 @@ const Example : React.FC = ()=>{
         </div>
     )
 }
+
+
 #Class
+export type TimerProps = {
+    seconds: number
+}
+
+class Timer extends React.Component<TimerProps>{
+    timerId : any = undefined
+    state = {num:this.props.seconds}
+    componentDidMount(){
+       this.timerId = setInterval(()=>{
+           if(this.state.num>0){
+             this.setState({num:this.state.num-1})
+           }else{
+            clearInterval(this.timerId)
+            console.log('执行完了')
+           }
+       },1000)
+      }
+      componentWillUnmount(){
+          clearInterval(this.timerId)
+      }
+    render(){
+        //const seconds = this.props
+        return (
+            <div>当前秒是{this.state.num}</div>
+        )
+    }
+}
+export default Timer
 ```
 
 #### 1.2.3：useContext
@@ -87,3 +146,5 @@ const Example : React.FC = ()=>{
 #### 1.2.9：useLayoutEffect
 
 #### 1.3.10：useDebugValue
+
+### 
