@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>1_字符串形式的ref</title>
+</head>
+<body>
+	<!-- 准备好一个“容器” -->
+	<div id="test"></div>
+	
+	<!-- 引入react核心库 -->
+	<script type="text/javascript" src="../js/react.development.js"></script>
+	<!-- 引入react-dom，用于支持react操作DOM -->
+	<script type="text/javascript" src="../js/react-dom.development.js"></script>
+	<!-- 引入babel，用于将jsx转为js -->
+	<script type="text/javascript" src="../js/babel.min.js"></script>
+
+	<script type="text/babel">
+        // ref：回调式
+        // 在页面执行render渲染的时候回执行以下 ref中的回调函数，这个时候，他会把currentNode赋值给this的属性input1（自定义）上
+
+        // 可能存在问题就是：组件发生了更新，这个ref回调会执行两次
+
+
+        //创建组件
+        class Demo extends React.Component{
+            showDate = ()=>{
+                const {input1} = this
+                alert(input1.value)
+            }
+            showData2=()=>{
+                const {input2} = this
+                alert(input2.value)
+            }
+            render(){
+                return (
+                    <div>
+                        <input ref={ c => this.input1 = c} type="text" placeholder="点击按钮显示数据"/>
+                        <button onClick={this.showDate}>点我提示左侧数据</button><br/>
+                        <input ref={c=>this.input2 = c} onBlur={this.showData2} type="text" placeholder="失去焦点提示数据"/>
+                    </div>
+                )
+            }
+        }
+        //渲染组件
+        ReactDOM.render(<Demo/>,document.getElementById("test"))
+	 
+	</script>
+</body>
+</html>

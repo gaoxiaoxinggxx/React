@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>1_字符串形式的ref</title>
+</head>
+<body>
+	<!-- 准备好一个“容器” -->
+	<div id="test"></div>
+	
+	<!-- 引入react核心库 -->
+	<script type="text/javascript" src="../js/react.development.js"></script>
+	<!-- 引入react-dom，用于支持react操作DOM -->
+	<script type="text/javascript" src="../js/react-dom.development.js"></script>
+	<!-- 引入babel，用于将jsx转为js -->
+	<script type="text/javascript" src="../js/babel.min.js"></script>
+
+	<script type="text/babel">
+        // ref：回调式
+        // 在页面执行render渲染的时候回执行以下 ref中的回调函数，这个时候，他会把currentNode赋值给this的属性input1（自定义）上
+
+        // 可能存在问题就是：组件发生了更新，这个ref回调会执行两次
+
+
+        //创建组件
+        class Demo extends React.Component{
+            // state 状态发生改变了，则就会重新出发render的渲染，这个时候ref就会回调两次。react官网说没啥大影响
+            state = {isHost:true}
+
+            showDate = ()=>{
+                const {input1} = this
+                alert(input1.value)
+            }
+            changeWeather=()=>{
+                const {isHost} = this.state
+                this.setState({isHost:!isHost})
+            }
+            render(){
+                const {isHost} = this.state
+                return (
+                    <div>
+                        <h2>今天天气很{isHost?'炎热':'凉爽'}</h2>
+                        <input ref={ c => this.input1 = c} type="text" placeholder="点击按钮显示数据"/>
+                        <button onClick={this.showDate}>点我提示左侧数据</button><br/>
+                        <button onClick={this.changeWeather}>点击切换天气</button>
+                    </div>
+                )
+            }
+        }
+        //渲染组件
+        ReactDOM.render(<Demo/>,document.getElementById("test"))
+	 
+	</script>
+</body>
+</html>
