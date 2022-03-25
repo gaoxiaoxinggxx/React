@@ -1,1 +1,70 @@
-3
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件处理</title>
+</head>
+<body>
+	<!-- 准备好一个“容器” -->
+	<div id="test"></div>
+	
+	<!-- 引入react核心库 -->
+	<script type="text/javascript" src="../js/react.development.js"></script>
+	<!-- 引入react-dom，用于支持react操作DOM -->
+	<script type="text/javascript" src="../js/react-dom.development.js"></script>
+	<!-- 引入babel，用于将jsx转为js -->
+	<script type="text/javascript" src="../js/babel.min.js"></script>
+
+	<script type="text/babel">
+     // （旧）生命周期
+     class Life extends React.Component{
+         constructor(props){
+             super(props)
+             this.state = {isHot:true}
+             // 组件构造函数内：最先被执行
+             console.log('Life--constructor')
+         }
+
+         // 组件将要被挂在的时候
+         componentWillMount(){
+            console.log('Life--componentWillMount')
+         }
+
+         // 组件挂载完成的时候加载
+         componentDidMount(){
+            console.log('Life--componentDidMount')
+         }
+
+         shouldComponentUpdate(nextProps,nextState){
+             console.log('Life--shouldComponentUpdate',nextProps,nextState)
+         }
+
+         //组件将要被卸载掉了
+         componentWillUnmount(){
+            console.log('Life--componentWillUnmount')
+         }
+
+         changeWeather = ()=>{
+             this.setState({isHot:!this.state.isHot})
+         }
+         unMount =()=>{
+             // 组件卸载
+             ReactDOM.unmountComponentAtNode(document.getElementById('test'));
+         }
+
+         // 组件初次渲染，state被更改的时候执行渲染
+         render(){
+            console.log('Life--render')
+             return (
+                <div>
+                    <h2>今天天气很{this.state.isHot?"炎热":"凉爽"}</h2>
+                    <button onClick={this.changeWeather}>点击切换天气</button>
+                    <button onClick={this.unMount}>卸载组件</button>
+                </div>
+             )
+         }
+     }
+     ReactDOM.render(<Life/>,document.getElementById('test'))
+	</script>
+</body>
+</html>
